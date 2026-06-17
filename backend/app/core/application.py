@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.router import api_router
 from app.core.config import get_settings
+from app.db.session import init_db
 
 
 def create_app() -> FastAPI:
@@ -24,6 +25,10 @@ def create_app() -> FastAPI:
 
     app.include_router(api_router, prefix=settings.api_prefix)
 
+    @app.on_event("startup")
+    def on_startup() -> None:
+        init_db()
+
     @app.get("/", tags=["System"])
     def root() -> dict[str, str]:
         return {"message": "Gridlock AI systems status: online"}
@@ -33,4 +38,3 @@ def create_app() -> FastAPI:
         return {"status": "healthy", "service": settings.app_name}
 
     return app
-

@@ -5,6 +5,34 @@ const api = axios.create({
   timeout: 8000
 });
 
+export const setAuthToken = (token: string | null) => {
+  if (token) {
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
+    return;
+  }
+  delete api.defaults.headers.common.Authorization;
+};
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: UserRole;
+  department: string;
+  created_at: string;
+  last_login: string | null;
+}
+
+export type UserRole = "Traffic Police" | "Traffic Operator" | "Administrator" | "Guest (Demo)" | "Super Admin";
+
+export interface AuthResponse {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+  expires_in: number;
+  user: User;
+}
+
 export interface DashboardSummary {
   traffic_score: number;
   average_speed: number;
@@ -77,5 +105,16 @@ export const gridlockApi = {
   predictions: async () => (await api.get<Prediction[]>("/api/intelligence/predictions")).data,
   violations: async () => (await api.get<Violation[]>("/api/violations")).data,
   analytics: async () => (await api.get<AnalyticsPoint[]>("/api/analytics/traffic-trends")).data
+};
+
+export const authApi = {
+  register: async (payload: { name: string; email: string; password: string; role: UserRole; department: string }) =>
+    (await api.post<AuthResponse>("/api/auth/register", payload)).data,
+  login: async (payload: { email: string; password: string; remember_me: boolean }) =>
+    (await api.post<AuthResponse>("/api/auth/login", payload)).data,
+  refresh: async (refresh_token: string) => (await api.post<AuthResponse>("/api/auth/refresh", { refresh_token })).data,
+  logout: async (refresh_token: string | null) => (await api.post<{ message: string }>("/api/auth/logout", { refresh_token })).data,
+  me: async () => (await api.get<User>("/api/auth/me")).data,
+  users: async () => (await api.get<User[]>("/api/auth/users")).data
 };
 
