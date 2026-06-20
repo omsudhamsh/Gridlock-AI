@@ -43,6 +43,8 @@ docs/                 setup, deployment, and feature docs
 
 ```bash
 cd backend
+cp .env.example .env
+# Add your NVIDIA API key to backend/.env
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -67,6 +69,7 @@ Open `http://127.0.0.1:5173`.
 - `GET /api/traffic/segments`
 - `GET /api/intelligence/recommendations`
 - `GET /api/intelligence/predictions`
+- `GET /api/intelligence/briefing` (NVIDIA NIM with local fallback)
 - `GET /api/violations`
 - `GET /api/analytics/traffic-trends`
 

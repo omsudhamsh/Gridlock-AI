@@ -74,10 +74,17 @@ class Recommendation(BaseModel):
     estimated_time_saved: str
 
 
+class IntelligenceBriefing(BaseModel):
+    briefing: str
+    provider: str
+    model: str | None = None
+    generated_at: datetime
+    used_fallback: bool = False
+
+
 class AnalyticsPoint(BaseModel):
     label: str
     traffic_volume: int
     average_speed: float
     violations: int
     incidents: int
-

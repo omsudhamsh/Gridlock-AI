@@ -90,6 +90,14 @@ export interface Prediction {
   confidence: number;
 }
 
+export interface IntelligenceBriefing {
+  briefing: string;
+  provider: string;
+  model: string | null;
+  generated_at: string;
+  used_fallback: boolean;
+}
+
 export interface AnalyticsPoint {
   label: string;
   traffic_volume: number;
@@ -103,6 +111,7 @@ export const gridlockApi = {
   roads: async () => (await api.get<RoadSegment[]>("/api/traffic/segments")).data,
   recommendations: async () => (await api.get<Recommendation[]>("/api/intelligence/recommendations")).data,
   predictions: async () => (await api.get<Prediction[]>("/api/intelligence/predictions")).data,
+  briefing: async () => (await api.get<IntelligenceBriefing>("/api/intelligence/briefing")).data,
   violations: async () => (await api.get<Violation[]>("/api/violations")).data,
   analytics: async () => (await api.get<AnalyticsPoint[]>("/api/analytics/traffic-trends")).data
 };
@@ -117,4 +126,3 @@ export const authApi = {
   me: async () => (await api.get<User>("/api/auth/me")).data,
   users: async () => (await api.get<User[]>("/api/auth/users")).data
 };
-

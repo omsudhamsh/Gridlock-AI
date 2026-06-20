@@ -1,4 +1,5 @@
 from functools import lru_cache
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -11,6 +12,10 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     access_token_minutes: int = 30
     refresh_token_days: int = 7
+    nvidia_api_key: SecretStr | None = None
+    nvidia_base_url: str = "https://integrate.api.nvidia.com/v1"
+    nvidia_model: str = "meta/llama-3.1-70b-instruct"
+    nvidia_timeout_seconds: float = 20.0
 
     model_config = SettingsConfigDict(env_file=".env", env_prefix="GRIDLOCK_")
 
