@@ -24,3 +24,60 @@ a {
   background-size: 42px 42px;
 }
 
+.gridlock-leaflet-map {
+  background: #0b131e;
+  font-family: inherit;
+}
+
+.gridlock-leaflet-map .leaflet-tile-pane {
+  filter: brightness(0.58) saturate(0.72) contrast(1.18);
+}
+
+.gridlock-leaflet-map .leaflet-control-zoom a {
+  border-color: #243043;
+  background: rgba(11, 16, 23, 0.94);
+  color: #dbe7f5;
+}
+
+.gridlock-leaflet-map .leaflet-control-zoom a:hover {
+  background: #111926;
+  color: #55d8ff;
+}
+
+.gridlock-leaflet-map .leaflet-control-attribution,
+.gridlock-leaflet-map .leaflet-control-scale-line {
+  border-color: #243043;
+  background: rgba(11, 16, 23, 0.88);
+  color: #a8b3c5;
+}
+
+.gridlock-leaflet-map .leaflet-control-attribution a {
+  color: #55d8ff;
+}
+
+.gridlock-leaflet-map .leaflet-popup-content-wrapper,
+.gridlock-leaflet-map .leaflet-popup-tip,
+.gridlock-leaflet-map .leaflet-tooltip {
+  border: 1px solid #243043;
+  background: rgba(11, 16, 23, 0.96);
+  color: #dbe7f5;
+}
+
+.gridlock-leaflet-map .leaflet-tooltip {
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+}
+
+.gridlock-map-popup {
+  display: grid;
+  gap: 5px;
+  color: #a8b3c5;
+}
+
+.gridlock-map-popup strong {
+  color: #fff;
+  font-size: 14px;
+}
+
+.gridlock-map-popup span {
+  color: #dbe7f5;
+}

@@ -3,23 +3,25 @@ import { useEffect, useState } from "react";
 import { MetricCard } from "../components/MetricCard";
 import { TrafficMap } from "../components/TrafficMap";
 import { TrendChart } from "../components/TrendChart";
-import { fallbackAnalytics, fallbackRecommendations, fallbackRoads, fallbackSummary, fallbackViolations } from "../data/fallback";
-import { gridlockApi, type AnalyticsPoint, type DashboardSummary, type Recommendation, type RoadSegment, type Violation } from "../services/api";
+import { fallbackAnalytics, fallbackPredictions, fallbackRecommendations, fallbackRoads, fallbackSummary, fallbackViolations } from "../data/fallback";
+import { gridlockApi, type AnalyticsPoint, type DashboardSummary, type Prediction, type Recommendation, type RoadSegment, type Violation } from "../services/api";
 
 export function Dashboard() {
   const [summary, setSummary] = useState<DashboardSummary>(fallbackSummary);
   const [roads, setRoads] = useState<RoadSegment[]>(fallbackRoads);
   const [recommendations, setRecommendations] = useState<Recommendation[]>(fallbackRecommendations);
   const [violations, setViolations] = useState<Violation[]>(fallbackViolations);
+  const [predictions, setPredictions] = useState<Prediction[]>(fallbackPredictions);
   const [analytics, setAnalytics] = useState<AnalyticsPoint[]>(fallbackAnalytics);
 
   useEffect(() => {
-    Promise.allSettled([gridlockApi.summary(), gridlockApi.roads(), gridlockApi.recommendations(), gridlockApi.violations(), gridlockApi.analytics()]).then((results) => {
+    Promise.allSettled([gridlockApi.summary(), gridlockApi.roads(), gridlockApi.recommendations(), gridlockApi.violations(), gridlockApi.analytics(), gridlockApi.predictions()]).then((results) => {
       if (results[0].status === "fulfilled") setSummary(results[0].value);
       if (results[1].status === "fulfilled") setRoads(results[1].value);
       if (results[2].status === "fulfilled") setRecommendations(results[2].value);
       if (results[3].status === "fulfilled") setViolations(results[3].value);
       if (results[4].status === "fulfilled") setAnalytics(results[4].value);
+      if (results[5].status === "fulfilled") setPredictions(results[5].value);
     });
   }, []);
 
@@ -33,7 +35,7 @@ export function Dashboard() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.45fr_0.9fr]">
-        <TrafficMap roads={roads.slice(0, 6)} />
+        <TrafficMap roads={roads} predictions={predictions} violations={violations} recommendations={recommendations} compact />
         <section className="rounded-lg border border-line bg-panel p-5">
           <div className="mb-4 flex items-center justify-between">
             <div>
@@ -87,4 +89,3 @@ export function Dashboard() {
     </div>
   );
 }
-

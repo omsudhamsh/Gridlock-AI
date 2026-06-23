@@ -29,7 +29,7 @@ class TrafficSimulationService:
         ]
 
     def _rng(self) -> Random:
-        bucket = int(datetime.now(timezone.utc).timestamp() // 90)
+        bucket = int(datetime.now(timezone.utc).timestamp() // 30)
         return Random(bucket)
 
     @staticmethod
